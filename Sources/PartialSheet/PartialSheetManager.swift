@@ -38,7 +38,7 @@ public class PartialSheetManager: ObservableObject {
     private(set) var onDismiss: (() -> Void)?
 
     /// Possibility to customize the slide in/out animation of the partial sheet
-    public var defaultAnimation: Animation = .interpolatingSpring(stiffness: 300.0, damping: 30.0, initialVelocity: 10.0)
+    public var defaultAnimation: Animation = .easeIn(duration: 0.1)
 
     public init() {
         self.content = AnyView(EmptyView())
@@ -69,7 +69,7 @@ public class PartialSheetManager: ObservableObject {
             self.onDismiss = onDismiss
             
             DispatchQueue.main.async {
-                withAnimation(.easeIn(duration: 0.1)) {
+                withAnimation(self.defaultAnimation) {
                     self.isPresented = true
                 }
             }
@@ -100,7 +100,7 @@ public class PartialSheetManager: ObservableObject {
     public func closePartialSheet() {
         self.onDismiss?()
         
-        withAnimation(.easeIn(duration: 0.1)) {
+        withAnimation(defaultAnimation) {
             self.isPresented = false
         }
     }
