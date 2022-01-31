@@ -100,7 +100,7 @@ public class PartialSheetManager: ObservableObject {
     public func closePartialSheet() {
         self.onDismiss?()
         
-        withAnimation(.easeIn) {
+        withAnimation(.easeIn(duration: 0.1)) {
             self.isPresented = false
         }
     }
