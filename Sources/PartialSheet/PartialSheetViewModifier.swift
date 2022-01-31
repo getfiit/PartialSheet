@@ -237,9 +237,7 @@ extension PartialSheet {
                 }
                 .onPreferenceChange(SheetPreferenceKey.self, perform: { (prefData) in
                     DispatchQueue.main.async {
-                        withAnimation(manager.defaultAnimation) {
-                            self.sheetContentRect = prefData.first?.bounds ?? .zero
-                        }
+						self.sheetContentRect = prefData.first?.bounds ?? .zero
                     }
                 })
                 .frame(width: UIScreen.main.bounds.width)
