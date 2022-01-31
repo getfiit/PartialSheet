@@ -27,10 +27,8 @@ public class PartialSheetManager: ObservableObject {
     @Published var isPresented: Bool = false {
         didSet {
             if !isPresented {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) { [weak self] in
-                    self?.content = AnyView(EmptyView())
-                    self?.onDismiss = nil
-                }
+                self?.content = AnyView(EmptyView())
+                self?.onDismiss = nil
             }
         }
     }
@@ -66,11 +64,14 @@ public class PartialSheetManager: ObservableObject {
             return
         }
 
-        self.content = AnyView(content())
-        self.onDismiss = onDismiss
         DispatchQueue.main.async {
-            withAnimation(self.defaultAnimation) {
-                self.isPresented = true
+            self.content = AnyView(content())
+            self.onDismiss = onDismiss
+         
+            DispatchQueue.main.async {
+               withAnimation(self.defaultAnimation) {
+                   self.isPresented = true
+               }
             }
         }
     }
@@ -97,9 +98,10 @@ public class PartialSheetManager: ObservableObject {
 
     /// Close the Partial Sheet and run the onDismiss function if it has been previously specified
     public func closePartialSheet() {
-        withAnimation(defaultAnimation) {
+        self.onDismiss?()
+     
+        withAnimation(.easeIn) {
             self.isPresented = false
         }
-        self.onDismiss?()
     }
 }
